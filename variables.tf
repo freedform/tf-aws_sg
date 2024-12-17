@@ -6,7 +6,7 @@ variable "create_sg" {
 
 variable "sg_name" {
   description = "Security group name"
-  type    = string
+  type        = string
 }
 
 variable "sg_description" {
@@ -25,7 +25,8 @@ variable "sg_egress_rules" {
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks = list(string)
+    cidr_blocks = optional(list(string))
+    sg_id       = optional(string)
   }))
   default = []
 }
@@ -36,7 +37,14 @@ variable "sg_ingress_rules" {
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks = list(string)
+    cidr_blocks = optional(list(string))
+    sg_id       = optional(string)
   }))
   default = []
+}
+
+variable "tags" {
+  description = "Security group tags"
+  type        = object({})
+  default     = {}
 }

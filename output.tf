@@ -1,3 +1,3 @@
 output "sg_id" {
-  value = aws_security_group.this[0].id
+  value = local.sg_id
 }

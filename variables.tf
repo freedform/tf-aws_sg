@@ -5,18 +5,27 @@ variable "create_sg" {
 }
 
 variable "sg_name" {
-  description = "Security group name"
+  description = "Security group name. Required if 'create_sg' is true"
   type        = string
+  default     = null
 }
 
 variable "sg_description" {
-  description = "Security group description"
+  description = "Security group description. Required if 'create_sg' is true"
   type        = string
+  default     = null
 }
 
 variable "sg_vpc" {
-  description = "Define security group VPC"
+  description = "Define security group VPC. Required if 'create_sg' is true"
   type        = string
+  default     = null
+}
+
+variable "sg_id" {
+  description = "ID of existing security group"
+  type        = string
+  default     = ""
 }
 
 variable "sg_egress_rules" {

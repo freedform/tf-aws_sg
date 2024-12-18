@@ -23,6 +23,10 @@ resource "aws_security_group" "this" {
   }, var.tags)
 }
 
+locals {
+  sg_id = var.create_sg ? aws_security_group.this[0].id : var.sg_id
+}
+
 resource "aws_security_group_rule" "egress_cidr_rules" {
   for_each          = local.egress_cidr_rules
   type              = "egress"
@@ -30,7 +34,7 @@ resource "aws_security_group_rule" "egress_cidr_rules" {
   protocol          = each.value["protocol"]
   to_port           = each.value["to_port"]
   cidr_blocks       = each.value["cidr_blocks"]
-  security_group_id = aws_security_group.this[0].id
+  security_group_id = local.sg_id
 }
 
 resource "aws_security_group_rule" "ingress_cidr_rules" {
@@ -40,7 +44,7 @@ resource "aws_security_group_rule" "ingress_cidr_rules" {
   protocol          = each.value["protocol"]
   to_port           = each.value["to_port"]
   cidr_blocks       = each.value["cidr_blocks"]
-  security_group_id = aws_security_group.this[0].id
+  security_group_id = local.sg_id
 }
 
 resource "aws_security_group_rule" "egress_sg_id_rules" {
@@ -50,7 +54,7 @@ resource "aws_security_group_rule" "egress_sg_id_rules" {
   protocol                 = each.value["protocol"]
   to_port                  = each.value["to_port"]
   source_security_group_id = each.value["sg_id"]
-  security_group_id        = aws_security_group.this[0].id
+  security_group_id        = local.sg_id
 }
 
 resource "aws_security_group_rule" "ingress_sg_id_rules" {
@@ -60,5 +64,5 @@ resource "aws_security_group_rule" "ingress_sg_id_rules" {
   protocol                 = each.value["protocol"]
   to_port                  = each.value["to_port"]
   source_security_group_id = each.value["sg_id"]
-  security_group_id        = aws_security_group.this[0].id
+  security_group_id        = local.sg_id
 }
